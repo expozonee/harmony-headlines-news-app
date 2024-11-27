@@ -1,0 +1,43 @@
+.news__card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  padding-left: 15px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: black;
+}
+
+.news__card:hover {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.news__card img {
+  width: 150px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0 10px 10px 0;
+}
+
+.news__card time {
+  font-size: 12px;
+  color: #999;
+}
+
+.news__card small {
+  display: block;
+  font-size: 12px;
+  color: #363636;
+}
+
+.news__card .mood {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #363636;
+  margin-block: 10px;
+}
