@@ -7,7 +7,7 @@
 }
 
 .article__news h1 {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   margin-block: 1rem;
   font-weight: 700;
   color: #333;
@@ -41,5 +41,23 @@
   border: none;
   border-radius: 5px;
   font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.article__news .desc {
+  text-align: left;
+  font-size: 1.3rem;
+}
+
+.article__news .mood-slider__container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.mood-slider__container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: clamp(1rem, 2vw, 1.5rem);
   cursor: pointer;
 }

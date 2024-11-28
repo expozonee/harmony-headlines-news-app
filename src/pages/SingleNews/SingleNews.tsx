@@ -1,9 +1,9 @@
 import "./SingleNews.css";
 import { useParams } from "react-router-dom";
 import { useNews } from "../../providers/NewsProvider";
-import { changeMood } from "../../utils/moodHandle";
 import { useState } from "react";
 import { NewsData } from "../../utils/getNews";
+import MoodSlider from "../../components/MoodSlider/MoodSlider";
 
 export async function SingleNewsLoader() {}
 
@@ -27,20 +27,19 @@ export default function SingleNews() {
 
   return (
     <article className="article__news">
-      <img src={`${desiredNews.image}`} alt="News image" />
+      {desiredNews.image && (
+        <img src={`${desiredNews.image}`} alt="News image" />
+      )}
       <h1>{less ? less.title : desiredNews.title}</h1>
       <small>{desiredNews.source}</small>
       <small>{date.toString()}</small>
       <p>Mood: {less ? less.mood : desiredNews.mood}</p>
-      <button
-        onClick={async () => {
-          const less = await changeMood(desiredNews);
-          setLess(less);
-        }}
-      >
-        Make less aggressive
-      </button>
-      <p>{less ? less.description : desiredNews.description}</p>
+      <div className="mood-slider__container">
+        <MoodSlider update={setLess} desiredNews={desiredNews} />
+      </div>
+      <p className="desc">
+        {less ? less.description : desiredNews.description}
+      </p>
     </article>
   );
 }
