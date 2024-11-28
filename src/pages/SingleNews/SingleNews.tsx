@@ -20,7 +20,7 @@ export default function SingleNews() {
 
   if (!news) throw new Error("No News");
 
-  const desiredNews = news[+id];
+  const desiredNews = news.data[+id];
 
   if (!desiredNews) throw new Error("The desired news does not exist");
   const date = new Date(desiredNews.published_at);
@@ -40,7 +40,7 @@ export default function SingleNews() {
       >
         Make less aggressive
       </button>
-      <p>{less ? less.title : desiredNews.description}</p>
+      <p>{less ? less.description : desiredNews.description}</p>
     </article>
   );
 }
