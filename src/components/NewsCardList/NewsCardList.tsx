@@ -6,10 +6,30 @@ import { Await, useLoaderData } from "react-router-dom";
 import { Suspense, useEffect, useState } from "react";
 import { useNews } from "../../providers/NewsProvider";
 import { initialMoods } from "../../utils/moodHandle";
+import { generateDate } from "../../utils/generateDate";
+import { LocalstorageData } from "../../types/LocalstorageData";
 
 export async function rootLoader() {
   try {
+    const dataLocalstorage = JSON.parse(
+      localStorage.getItem("news")!
+    ) as LocalstorageData;
+
+    if (dataLocalstorage) {
+      const dataTimeAdded = dataLocalstorage.dateAdded;
+      const now = generateDate();
+
+      if (
+        dataTimeAdded.day === now.day &&
+        dataTimeAdded.month === now.month &&
+        Math.abs(dataTimeAdded.hour - now.hour) <= 3
+      ) {
+        return dataLocalstorage.data;
+      }
+    }
+
     const news = await getNews();
+
     return news;
   } catch (error) {
     throw new Error(`Couldn't fetch the news: ${error}`);
