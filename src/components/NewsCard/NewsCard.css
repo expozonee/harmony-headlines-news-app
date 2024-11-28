@@ -41,3 +41,34 @@
   color: #363636;
   margin-block: 10px;
 }
+
+@media (max-width: 650px) {
+  .news__card {
+    flex-direction: column-reverse;
+    align-items: center;
+    padding-left: 0;
+  }
+
+  .news__card img {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .news__card > *:not(img) {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .news__card *:not(img) {
+    margin-block: 0.3rem;
+  }
+
+  .news__card time {
+    margin-block: 10px;
+  }
+
+  .news__card .mood {
+    margin-block: 10px;
+  }
+}
