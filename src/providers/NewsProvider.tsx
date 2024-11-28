@@ -1,10 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, ReactNode, useContext } from "react";
 import { NewsData } from "../utils/getNews";
+import { generateDate } from "../utils/generateDate";
+import { LocalstorageData } from "../types/LocalstorageData";
 
 type NewsContext = {
   setNewsData(data: NewsData[]): void;
-  getNewsFromLocalStorage(): NewsData[];
+  getNewsFromLocalStorage(): LocalstorageData;
 };
 
 type NewsProviderProps = {
@@ -18,12 +20,15 @@ export function NewsProvider({ children }: NewsProviderProps) {
     const isDataArr = Array.isArray(data);
 
     if (isDataArr) {
-      localStorage.setItem("news", JSON.stringify(data));
+      localStorage.setItem(
+        "news",
+        JSON.stringify({ data, dateAdded: generateDate() })
+      );
     }
   }
 
   function getNewsFromLocalStorage() {
-    return JSON.parse(localStorage.getItem("news")!) as NewsData[];
+    return JSON.parse(localStorage.getItem("news")!) as LocalstorageData;
   }
 
   return (
