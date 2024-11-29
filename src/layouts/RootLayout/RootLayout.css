@@ -45,7 +45,7 @@ main {
 
 main > h1 {
   text-align: center;
-  margin-block: 1rem;
+  margin-top: 1rem;
 }
 
 .layout__container {
