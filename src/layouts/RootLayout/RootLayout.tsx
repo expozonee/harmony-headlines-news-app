@@ -5,7 +5,7 @@ export default function RootLayout() {
   return (
     <div className="layout__container">
       <header>
-        <h1>Logo</h1>
+        <h1>Harmony Headlines News</h1>
         <Link to={"/"}>
           <button>News</button>
         </Link>
