@@ -5,21 +5,28 @@ import SingleNews, { SingleNewsLoader } from "./pages/SingleNews/SingleNews";
 import { rootLoader } from "./components/NewsCardList/NewsCardList";
 import { NewsProvider } from "./providers/NewsProvider";
 import { Suspense } from "react";
+import RootLayout from "./layouts/RootLayout/RootLayout";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <Suspense fallback={<p>Loading...</p>}>
-        <Home />
+        <RootLayout />
       </Suspense>
     ),
-    loader: rootLoader,
-  },
-  {
-    path: "news/:id",
-    element: <SingleNews />,
-    loader: SingleNewsLoader,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+        loader: rootLoader,
+      },
+      {
+        path: "news/:id",
+        element: <SingleNews />,
+        loader: SingleNewsLoader,
+      },
+    ],
   },
 ]);
 
