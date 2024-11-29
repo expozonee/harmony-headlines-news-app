@@ -26,7 +26,7 @@ export default function NewsCard({
       className="news__card"
       to={`/news/${id}`}
     >
-      <div>
+      <div className="card__text">
         <h3 className="news__card-title">{title}</h3>
         <small className="news__card-author">{author}</small>
         <small className="news__card-source">{source}</small>
