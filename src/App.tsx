@@ -6,6 +6,8 @@ import { rootLoader } from "./components/NewsCardList/NewsCardList";
 import { NewsProvider } from "./providers/NewsProvider";
 import { Suspense } from "react";
 import RootLayout from "./layouts/RootLayout/RootLayout";
+import SignInPage from "./pages/LoginPage/SignIn";
+import SignUpPage from "./pages/SignUp/SignUp";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ const router = createBrowserRouter([
         path: "news/:id",
         element: <SingleNews />,
         loader: SingleNewsLoader,
+      },
+      {
+        path: "sign-up/*",
+        element: <SignUpPage />,
+      },
+      {
+        path: "sign-in/*",
+        element: <SignInPage />,
       },
     ],
   },
