@@ -1,7 +1,6 @@
 import "./MoodSlider.css";
 import { Slider } from "@mui/material";
 import { NewsData } from "../../utils/getNews";
-import { changeMood } from "../../utils/moodHandle";
 import { useState } from "react";
 
 type MoodSliderProps = {
@@ -54,8 +53,20 @@ export default function MoodSlider({ update, desiredNews }: MoodSliderProps) {
       <button
         onClick={async () => {
           setIsLoading(true);
-          const less = await changeMood(desiredNews, desiredMood);
-          update(less);
+          const newLess = await fetch(
+            "https://harmony-headlines-news-backend-app.vercel.app/change-mood",
+            {
+              method: "POST",
+              body: JSON.stringify({ desiredNews, desiredMood }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const lesss = await newLess.json();
+
+          // const less = await changeMood(desiredNews, desiredMood);
+          update(lesss.less);
           setIsLoading(false);
         }}
       >
