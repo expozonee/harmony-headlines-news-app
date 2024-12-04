@@ -4,11 +4,15 @@ import { useNews } from "../../providers/NewsProvider";
 import { useState } from "react";
 import { NewsData } from "../../utils/getNews";
 import MoodSlider from "../../components/MoodSlider/MoodSlider";
+import { SignedIn, useUser } from "@clerk/clerk-react";
 
 export async function SingleNewsLoader() {}
 
 export default function SingleNews() {
   const { id } = useParams();
+  const userData = useUser();
+  const isAdmin = userData.user?.publicMetadata.role === "admin";
+
   const [less, setLess] = useState<
     Pick<NewsData, "title" | "description" | "mood"> | undefined
   >(undefined);
@@ -35,7 +39,9 @@ export default function SingleNews() {
       <small>{date.toString()}</small>
       <p>Mood: {less ? less.mood : desiredNews.mood}</p>
       <div className="mood-slider__container">
-        <MoodSlider update={setLess} desiredNews={desiredNews} />
+        <SignedIn>
+          {isAdmin && <MoodSlider update={setLess} desiredNews={desiredNews} />}
+        </SignedIn>
       </div>
       <p className="desc">
         {less ? less.description : desiredNews.description}
