@@ -5,7 +5,6 @@ import { getNews, NewsData } from "../../utils/getNews";
 import { Await, useLoaderData } from "react-router-dom";
 import { Suspense, useEffect, useState } from "react";
 import { useNews } from "../../providers/NewsProvider";
-import { initialMoods } from "../../utils/moodHandle";
 import { generateDate } from "../../utils/generateDate";
 import { LocalstorageData } from "../../types/LocalstorageData";
 
@@ -37,24 +36,38 @@ export async function rootLoader() {
 }
 
 export default function NewsCardList() {
-  const { setNewsData } = useNews();
-  const [moods, setMoods] = useState<number[]>([]);
+  const { setNewsData, getNewsFromLocalStorage } = useNews();
   const news = useLoaderData() as NewsData[];
+  const [nnews, setNnews] = useState<NewsData[] | undefined>(undefined);
 
   useEffect(() => {
     async function getMoodsForTitles() {
       const titles = news.map((n) => n.title);
-      const moods = (await initialMoods(titles)) as number[];
-      setMoods(moods);
+      const objTitle = {
+        titles,
+      };
+      const moodsRes = await fetch(
+        "https://harmony-headlines-news-backend-app.vercel.app/initial-mood",
+        {
+          method: "POST",
+          body: JSON.stringify(objTitle),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const Moods = (await moodsRes.json()).moods;
 
       const dataToAdd = news.map((n, index) => {
         return {
           ...n,
-          mood: moods[index],
+          mood: Moods[index],
         };
       });
 
       setNewsData(dataToAdd);
+      setNnews(getNewsFromLocalStorage().data);
     }
     getMoodsForTitles();
   }, [news, setNewsData]);
@@ -63,20 +76,21 @@ export default function NewsCardList() {
     <div className="card-list">
       <Suspense fallback={<p>Loading News...</p>}>
         <Await resolve={news}>
-          {news.map((n, index) => {
-            return (
-              <NewsCard
-                key={index}
-                title={n.title}
-                author={n.author}
-                source={n.source}
-                image={n.image}
-                publishedAt={n.published_at}
-                id={index}
-                mood={moods[index]}
-              />
-            );
-          })}
+          {nnews &&
+            nnews.map((n, index) => {
+              return (
+                <NewsCard
+                  key={index}
+                  title={n.title}
+                  author={n.author}
+                  source={n.source}
+                  image={n.image}
+                  publishedAt={n.published_at}
+                  id={index}
+                  mood={n.mood!}
+                />
+              );
+            })}
         </Await>
       </Suspense>
     </div>
